@@ -1,0 +1,168 @@
+.chatList {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 20px;
+    gap: 15px;
+    width: 280px;
+    background-color: #12101b;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.header {
+    margin-bottom: 10px;
+}
+
+.header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ececec;
+    margin: 0;
+    background: linear-gradient(to right, #217bfe, #e55571);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    border-radius: 12px;
+    color: #ececec;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.nav-link:hover {
+    background-color: #2c2937;
+    transform: translateX(5px);
+}
+
+.nav-link .icon {
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+    margin: 15px 0;
+}
+
+.section-header {
+    margin-bottom: 10px;
+}
+
+.section-header h4 {
+    font-size: 12px;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    overflow-y: auto;
+    flex: 1;
+    padding-right: 5px;
+}
+
+.list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.list::-webkit-scrollbar-thumb {
+    background-color: #2c2937;
+    border-radius: 10px;
+}
+
+.chat-item {
+    padding: 12px 15px;
+    border-radius: 10px;
+    color: #ececec;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chat-item:hover {
+    background-color: #2c2937;
+    transform: translateX(3px);
+}
+
+.upgrade {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px;
+    background: linear-gradient(135deg, rgba(33, 123, 254, 0.1), rgba(229, 85, 113, 0.1));
+    border-radius: 15px;
+    border: 1px solid rgba(33, 123, 254, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upgrade:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(33, 123, 254, 0.2);
+    border-color: rgba(33, 123, 254, 0.4);
+}
+
+.upgrade-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(33, 123, 254, 0.2);
+    border-radius: 10px;
+}
+
+.upgrade-icon img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.upgrade-texts {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.upgrade-title {
+    font-weight: 600;
+    font-size: 13px;
+    color: #ececec;
+}
+
+.upgrade-subtitle {
+    font-size: 11px;
+    color: #888;
+    line-height: 1.4;
+}

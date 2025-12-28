@@ -1,0 +1,43 @@
+.rootLayout {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 64px;
+    height: 100vh;
+
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .right-navBar{
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            
+        }
+        
+        .Lucy{
+            height: 40px;
+            width: 40px;
+            font-weight: bold;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        img {
+            height: 32px;
+            width: 32px;
+        }
+    }
+
+    main {
+        flex: 1;
+        overflow: hidden;
+    }
+}
