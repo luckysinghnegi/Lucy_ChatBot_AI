@@ -1,53 +1,46 @@
-import { askGroqAI } from "../utils/groq.js";
-import { getGeminiReply } from "../utils/gemini.js"
+import Chat from "../models/chat.model.js";
+import Message from "../models/message.model.js";
+// import askAI from "../utils/groq.js.js"
 
-import  Chat  from "../models/chat.model.js"
 
 export const sendMessage = async (req, res) => {
   try {
-    const { prompt } = req.body || {};      // fallback if body is undefined
-
-    if (!prompt) {
-      return res.status(400).json({ error: "Prompt is required" });
+    const userId = req.auth.userId;
+    const { chatId, prompt } = req.body;
+  
+    if (!chatId || !prompt) {
+      return res.status(400).json({ error: "chatId and prompt required" });
     }
 
-    const answer = await askGroqAI(prompt);
-
-    if (!answer) {
-      return res.status(201).json({ answer, prompt })
-    }
-
-    const userId = req.auth.userId; // ✅ THIS IS IT
-
-    console.log("Clerk User ID:", userId);
-
-
-    let chat = await Chat.findOne({ userId })
-
+    const chat = await Chat.findOne({ _id: chatId, userId });
     if (!chat) {
-      chat = new Chat({
-        userId,
-        chat: []
-      })
+      return res.status(404).json({ error: "Chat not found" });
     }
 
-    chat.Chats.push(
-      {
-        message: prompt,
-        author: "USER"
-      }
-    )
-
-    chat.chats.push({
-      message: answer,
-      author: "AI"
+    // USER message
+    await Message.create({
+      chatId,
+      role: "user",
+      content: prompt,
     });
 
-    await chat.save()
+    // AI reply
+    const aiReply = "working";
 
-    return res.status(200).json({ answer });
-  } catch (error) {
-    console.error("Groq Error:", error);
-    return res.status(500).json({ error: error.message });
+    // AI message
+    await Message.create({
+      chatId,
+      role: "assistant",
+      content: aiReply,
+    });
+
+    chat.lastMessage = aiReply;
+    await chat.save();
+
+    // ✅ SIMPLE RESPONSE
+    res.json({ reply: aiReply });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };

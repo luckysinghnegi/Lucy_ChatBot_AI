@@ -1,45 +1,65 @@
-import React from 'react'
-import "./RootLayout.css"
-import { Outlet, Link } from "react-router-dom"
-import { ClerkProvider, SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
+import React, { useEffect } from "react";
+import "./RootLayout.css";
+import { Outlet, Link } from "react-router-dom";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+  useAuth,
+  ClerkProvider
+} from "@clerk/clerk-react";
 
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
-if (!PUBLISHABLE_KEY) {
-  console.log("not working key")
-  throw new Error('Missing Publishable Key')
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
+function SaveUserToDB() {
+  const { isSignedIn, getToken } = useAuth();
+
+  useEffect(() => {
+    if (!isSignedIn) return;
+
+    const saveUser = async () => {
+      const token = await getToken();
+
+      await fetch("http://localhost:3000/api/user/save", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    };
+
+    saveUser();
+  }, [isSignedIn]);
 }
 
 function RootLayout() {
   return (
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl={"/"}>
-      <div className='rootLayout'>
-        <header>
-          <Link to="/">
-            <div className='right-navBar'>
-              <img src="/logo.png" className='logo' alt="logo" />
-              <div className='Lucy'>
-                LucyAI
-              </div>
-            </div>
-          </Link>
-          <div className="user">
-            <header>
-              <SignedOut>
-                <SignInButton />
-              </SignedOut>
-              <SignedIn>
-                <UserButton />
-              </SignedIn>
-            </header>
-          </div>
-        </header>
-        <main>
-          <Outlet />
-        </main>
-      </div>
-    </ClerkProvider>
-  )
+    <div className="rootLayout">
+      <SaveUserToDB />
+      <header className="navbar">
+        <Link to="/" className="logo-wrapper">
+          <img src="/logo.png" className="logo" alt="logo" />
+          <span className="Lucy">LucyAI</span>
+        </Link>
+
+        <div className="user">
+          <SignedOut>
+            <SignInButton mode="modal" />
+          </SignedOut>
+
+          <SignedIn>
+            <UserButton afterSignOutUrl="/" />
+          </SignedIn>
+        </div>
+      </header>
+
+      <main>
+        <Outlet />
+      </main>
+    </div>
+  );
 }
 
-export default RootLayout
+export default RootLayout;

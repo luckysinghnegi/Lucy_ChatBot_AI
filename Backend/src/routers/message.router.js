@@ -1,11 +1,10 @@
 import express from "express";
 import { sendMessage } from "../controllers/chatmessage.controller.js";
-
-import requireAuth from "../middlewares/clerk.middleware.js"; // Clerk middleware
+import { getChatMessages } from "../controllers/message.controller.js";
 
 const router = express.Router();
 
-// send a message
-router.post("/ask", requireAuth, sendMessage);
+router.post("/send", sendMessage);
+router.get("/:chatId", getChatMessages);
 
 export default router;

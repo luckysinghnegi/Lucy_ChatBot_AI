@@ -73,6 +73,115 @@ hr {
     margin: 0;
 }
 
+/* Each chat item */
+.chatList-items li {
+    width: 100%;
+}
+
+/* Chat button */
+.chatList-items li button {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 14px;
+    color: #e5e7eb;
+    /* light text */
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+/* Hover effect */
+.chatList-items li button:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Active chat (optional) */
+.chatList-items li.active button {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* Empty state button */
+.chatList-items>button {
+    margin: 8px;
+    padding: 10px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.chatList-items>button:hover {
+    background: #1d4ed8;
+}
+
+/* Sidebar container */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Logo stays visible */
+.sidebar-logo {
+    padding: 16px;
+    font-size: 18px;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Scrollable chat list box */
+.chatList-container {
+    flex: 1;
+    overflow-y: auto;
+
+    /* Hide scrollbar (Firefox) */
+    scrollbar-width: none;
+
+    /* Hide scrollbar (IE/Edge legacy) */
+    -ms-overflow-style: none;
+}
+
+/* Chat list */
+.chatList-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Individual chat button */
+.chatList-items li button {
+    width: 100%;
+    padding: 10px 12px;
+    background: transparent;
+    border: none;
+    color: #e5e7eb;
+    text-align: left;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.chatList-container::-webkit-scrollbar {
+    width: 4px;
+}
+
+.chatList-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
+
+.chatList-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
 .list {
     display: flex;
     flex-direction: column;
@@ -113,56 +222,119 @@ hr {
     transform: translateX(3px);
 }
 
-.upgrade {
-    margin-top: auto;
+/* delete button style */
+.chatBox {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 15px;
-    background: linear-gradient(135deg, rgba(33, 123, 254, 0.1), rgba(229, 85, 113, 0.1));
-    border-radius: 15px;
-    border: 1px solid rgba(33, 123, 254, 0.2);
+    justify-content: space-between;
+    background-color: #1f1b2c;
+    /* dark chat box */
+    padding: 8px 12px;
+    margin: 6px 0;
+    border-radius: 8px;
+    transition: background-color 0.2s, transform 0.2s;
     cursor: pointer;
-    transition: all 0.3s ease;
 }
 
-.upgrade:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(33, 123, 254, 0.2);
-    border-color: rgba(33, 123, 254, 0.4);
+.chatBox:hover {
+    background-color: #2c2937;
+    /* slightly lighter on hover */
+    transform: translateX(1px);
 }
 
-.upgrade-icon {
-    width: 40px;
-    height: 40px;
+.chatBox button {
+    flex: 1;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 16px;
+    color: #fff;
+    /* white text */
+    padding: 0;
+    cursor: pointer;
+}
+
+.chatBox button:hover {
+    color: #217bfe;
+    /* primary highlight */
+    font-weight: 500;
+}
+
+.delete-icon {
+    margin-left: 10px;
+    font-size: 16px;
+    color: #e55571;
+    /* dark theme friendly red */
+    transition: color 0.2s, transform 0.2s;
+}
+
+.delete-icon:hover {
+    color: #ff6b81;
+    /* brighter red on hover */
+    transform: scale(1.2);
+}
+
+
+
+/* Footer Style with Upgrade Section */
+.upgrade {
     display: flex;
     align-items: center;
-    justify-content: center;
-    background-color: rgba(33, 123, 254, 0.2);
-    border-radius: 10px;
+    justify-content: space-between;
+    background-color: #1f1b2c;
+    /* dark theme background */
+    padding: 8px 12px;
+    height: 60px;
+    /* fixed height */
+    border-radius: 8px;
+    margin: 10px 0;
+    box-sizing: border-box;
 }
 
-.upgrade-icon img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
+.upgrade-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.upgrade-texts {
+.upgrade-left img {
+    width: 40px;
+    /* smaller logo */
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.upgrade-text {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    flex: 1;
+    justify-content: center;
 }
 
-.upgrade-title {
-    font-weight: 600;
-    font-size: 13px;
-    color: #ececec;
+.upgrade-text span {
+    font-size: 8px;
+    font-weight: 500;
+    color: #fff;
 }
 
-.upgrade-subtitle {
-    font-size: 11px;
-    color: #888;
-    line-height: 1.4;
+.upgrade-text small {
+    font-size: 10px;
+    color: #aaa;
+}
+
+.upgrade-btn {
+    background-color: #217bfe;
+    border: none;
+    color: #fff;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.upgrade-btn:hover {
+    background-color: #1a5fcc;
+    transform: scale(1.05);
 }

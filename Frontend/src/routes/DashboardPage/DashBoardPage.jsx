@@ -1,9 +1,41 @@
-// import { useMutation, useQueryClient } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import "./dashboardPage.css";
-// import { useNavigate } from "react-router-dom";
+import { useAuth } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
 
 const DashboardPage = () => {
+  const { getToken } = useAuth();
+  const navigate = useNavigate();
+  const [prompt, setPrompt] = useState("");
+
+  const createChat = async (e) => {
+    e.preventDefault();
+
+    if (!prompt.trim()) return;
+
+    try {
+      const token = await getToken();
+
+      const res = await fetch("http://localhost:3000/api/chats", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ prompt }),
+      });
+
+      const chat = await res.json();
+      console.log(chat)
+      navigate(`/dashboard/chat/${chat._id}`, {
+        state: { firstPrompt: prompt },
+      });
+
+    } catch (error) {
+      console.error("Failed to create chat", error);
+    }
+  };
+
   return (
     <div className="dashboardPage">
       <div className="texts">
@@ -11,6 +43,7 @@ const DashboardPage = () => {
           <img src="/logo.png" alt="" />
           <h1>LAMA AI</h1>
         </div>
+
         <div className="options">
           <div className="option">
             <img src="/chat.png" alt="" />
@@ -26,10 +59,16 @@ const DashboardPage = () => {
           </div>
         </div>
       </div>
+
       <div className="formContainer">
-        <form >
-          <input type="text" name="text" placeholder="Ask me anything..." />
-          <button>
+        <form onSubmit={createChat}>
+          <input
+            type="text"
+            placeholder="Ask me anything..."
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+          />
+          <button type="submit">
             <img src="/arrow.png" alt="" />
           </button>
         </form>

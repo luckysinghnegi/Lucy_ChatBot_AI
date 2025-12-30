@@ -43,65 +43,68 @@
 }
 
 .newForm {
-  width: 100%;
-  background-color: #2c2937;
-  border-radius: 20px;
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 0px 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.newForm form {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 10px 0;
+  padding: 10px;
+  background-color: #12101b;
+  /* match endChat background */
+  border-top: 1px solid #2c2937;
+  border-radius: 0 0 8px 8px;
+  /* rounded bottom corners */
+  gap: 8px;
 }
 
 .newForm input[type="text"] {
   flex: 1;
-  padding: 20px;
-  border: none;
+  padding: 10px 12px;
+  border: 1px solid #2c2937;
+  border-radius: 20px;
+  background-color: #1f1b2c;
+  /* dark input background */
+  color: #fff;
+  font-size: 16px;
   outline: none;
-  background-color: transparent;
-  color: #ececec;
-  font-size: 14px;
+  transition: border 0.2s, box-shadow 0.2s;
 }
 
 .newForm input[type="text"]::placeholder {
   color: #888;
+  /* lighter placeholder */
 }
 
-.newForm button,
-.newForm label {
-  border-radius: 50%;
-  background-color: #605e68;
+.newForm input[type="text"]:focus {
+  border-color: #217bfe;
+  /* highlight color */
+  box-shadow: 0 0 5px rgba(33, 123, 254, 0.3);
+  background-color: #1f1b2c;
+  color: #fff;
+}
+
+.newForm button {
+  background-color: #217bfe;
+  /* primary blue to match loading dots */
   border: none;
   padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s, transform 0.2s;
 }
 
-.newForm button{
-  margin-bottom: -50px;
+.newForm button:hover {
+  background-color: #1a5fcc;
+  transform: scale(1.1);
 }
 
-.newForm button:hover,
-.newForm label:hover {
-  background-color: #71707a;
+.newForm button img {
+  width: 18px;
+  height: 18px;
+  filter: invert(1);
+  /* make arrow icon visible on dark background */
 }
 
-.newForm button img,
-.newForm label img {
-  width: 16px;
-  height: 16px;
-}
 
 .message.loading {
   padding: 20px 30px;
@@ -159,16 +162,21 @@
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
 }
 
 @keyframes loading-bounce {
-  0%, 80%, 100% {
+
+  0%,
+  80%,
+  100% {
     transform: scale(0.8);
     opacity: 0.6;
   }
+
   40% {
     transform: scale(1.2);
     opacity: 1;

@@ -1,27 +1,32 @@
 import mongoose from "mongoose";
 
-const chatMessageSchema = new mongoose.Schema({
-    message: {
-        type: String,
-        required: true
-    },
-    author: {
-        type: String,
-        enum: ["USER", "AI"],
-        required: true
-    }
-}, { _id: false });
-
-
 const chatSchema = new mongoose.Schema(
-    {
-        userId: {
-            type: String, // Clerk userId
-            required: true
-        },
-        chats: [chatMessageSchema] // ARRAY of messages
+  {
+    userId: {
+      type: String, // Clerk userId
+      required: true,
+      index: true,
     },
-    { timestamps: true }
+
+    title: {
+      type: String,
+      default: "New Chat",
+      trim: true,
+    },
+
+    firstMessage: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
+    lastMessage: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+  },
+  { timestamps: true }
 );
 
 export default mongoose.model("Chat", chatSchema);
