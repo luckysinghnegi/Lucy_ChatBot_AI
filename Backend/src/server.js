@@ -11,10 +11,10 @@ import chatRoutes from "./routers/chat.router.js"
 import messageRoutes from "./routers/message.router.js"
 import uploadRouter from "./routers/upload.router.js"
 
-// dotenv,and clerk external libraries imported here/-------------
+// dotenv,morgan external libraries imported here/-------------
 import dotenv from "dotenv"
 import morgan from "morgan";
-import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
+
 
 dotenv.config();   // load .env variables early — important
 
@@ -24,16 +24,17 @@ app.use(morgan("dev"));
 
 //cors set up to allow the frontend to interreact with backend/---------------------
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: [
+        "http://localhost:5173",
+        "https://your-frontend-domain.vercel.app"
+    ],
     credentials: true
-}))
+}));
 
 
 // other middlewares...
 app.use(express.json())
 
-// giving access to Clerk in all endpoints to get clerk userId/-----------
-app.use("/api", ClerkExpressRequireAuth())
 
 // define routes, etc.
 
