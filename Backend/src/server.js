@@ -43,6 +43,12 @@ app.get("/", (req, res) => {
     res.send("Hello world!")
 })
 
+// Health check route for Railway deployment
+app.get("/health", (req, res) => {
+    res.status(200).json({ status: "ok" });
+});
+
+
 // imageKit uploader router/-------
 app.use("/api/upload", uploadRouter);
 
