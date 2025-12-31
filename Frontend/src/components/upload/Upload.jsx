@@ -1,13 +1,23 @@
 import { IKContext, IKImage, IKUpload } from "imagekitio-react";
 import React, { useRef } from "react";
 
+import { useAuth } from "@clerk/clerk-react"
+
 const urlEndpoint = import.meta.env.VITE_IMAGE_KIT_ENDPOINT;
 const publicKey = import.meta.env.VITE_IMAGE_KIT_PUBLICKEY;
 
 const authenticator = async () => {
   try {
-    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
-    const response = await fetch(`${apiUrl}/api/upload`);
+    const token = await window.Clerk.session.getToken();
+
+    const response = await fetch(
+      "http://localhost:3000/api/upload/auth",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -17,8 +27,7 @@ const authenticator = async () => {
     }
 
     const data = await response.json();
-    const { signature, expire, token } = data;
-    return { signature, expire, token };
+    return data; // { signature, expire, token }
   } catch (error) {
     throw new Error(`Authentication request failed: ${error.message}`);
   }
@@ -81,7 +90,7 @@ const Upload = ({ setImg }) => {
       />
       {
         <label onClick={() => ikUploadRef.current.click()}>
-          <img src="/attachment.png" alt="" />
+          <img src="/attachment.png" alt="" style={{ height: 35 }} />
         </label>
       }
     </IKContext>

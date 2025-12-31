@@ -9,11 +9,11 @@ import aiRoutes from "./routers/ai.route.js"
 import userSaveRoutes from "./routers/userSave.route.js"
 import chatRoutes from "./routers/chat.router.js"
 import messageRoutes from "./routers/message.router.js"
+import uploadRouter from "./routers/upload.router.js"
 
-// dotenv , imageKit ,and clerk external libraries imported here/-------------
+// dotenv,and clerk external libraries imported here/-------------
 import dotenv from "dotenv"
 import morgan from "morgan";
-import ImageKit from "imagekit"
 import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
 
 dotenv.config();   // load .env variables early — important
@@ -39,16 +39,12 @@ app.use("/api", ClerkExpressRequireAuth())
 
 const PORT = process.env.PORT || 3000;
 
-const imagekit = new ImageKit({
-    urlEndpoint: process.env.IMAGE_KIT_ENDPOINT,
-    publicKey: process.env.IMAGE_KIT_PUBLIC_KEY,
-    privateKey: process.env.IMAGE_KIT_PRIVATE_KEY,
-})
-
-
 app.get("/", (req, res) => {
     res.send("Hello world!")
 })
+
+// imageKit uploader router/-------
+app.use("/api/upload", uploadRouter);
 
 // AI reply router
 app.use("/api/ai", aiRoutes);

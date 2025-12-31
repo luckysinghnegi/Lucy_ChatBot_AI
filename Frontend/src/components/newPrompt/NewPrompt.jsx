@@ -3,6 +3,8 @@ import "./NewPrompt.css";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useAuth } from "@clerk/clerk-react";
+import Upload from "../upload/Upload"
+import { IKImage } from "imagekitio-react"
 
 
 function NewPrompt({ chatId }) {
@@ -11,6 +13,13 @@ function NewPrompt({ chatId }) {
 
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    const [img, setImg] = useState({
+        isLoading: false,
+        error: "",
+        dbData: {},
+        aiData: {},
+    });
 
     const messagesContainerRef = useRef(null);
 
@@ -22,7 +31,7 @@ function NewPrompt({ chatId }) {
         });
     }, [messages, loading]);
 
-    // 1️⃣ Load messages, fetch the all previous specific chat message/----------
+    // 1️⃣ Load messages, fetch all previous specific chat message/----------
     useEffect(() => {
         if (!isSignedIn || !chatId) return;
 
@@ -75,12 +84,13 @@ function NewPrompt({ chatId }) {
         setLoading(false);
     };
 
+    console.log(messages)
 
     // 3️⃣ Form submit
     const handleForm = (e) => {
         e.preventDefault();
         const text = e.target.text.value;
-        if (!text) return;
+        if (!text.trim()) return;
 
         sendMessage(text);
         e.target.reset();
@@ -99,6 +109,14 @@ function NewPrompt({ chatId }) {
                         </ReactMarkdown>
                     </div>
                 ))}
+                {img.dbData?.filePath && (
+                    <IKImage
+                        urlEndpoint={import.meta.env.VITE_IMAGE_KIT_ENDPOINT}
+                        path={img.dbData?.filePath}
+                        width="380"
+                        transformation={[{ width: 380 }]}
+                    />
+                )}
 
                 {loading && (
                     <div className="message loading">
@@ -108,6 +126,8 @@ function NewPrompt({ chatId }) {
             </div>
 
             <form className="newForm" onSubmit={handleForm}>
+                <Upload setImg={setImg} />
+                <input className="fileUploader" id="file" type="file" multiple={false} hidden />
                 <input
                     type="text"
                     name="text"

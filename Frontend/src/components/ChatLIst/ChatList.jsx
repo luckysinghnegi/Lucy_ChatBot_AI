@@ -32,7 +32,7 @@ export default function ChatList() {
 
         fetchChats();
     }, [isSignedIn]);
-    console.log(chats)
+   
 
     // Create new chat
     const createNewChat = async () => {
@@ -85,7 +85,7 @@ export default function ChatList() {
             });
 
             const data = await res.json();
-            console.log(data, res.ok)
+
             if (res.ok) {
                 // Remove chat from local state
                 setChats((prev) => prev.filter((c) => c._id !== chatId));

@@ -1,13 +1,13 @@
 import Chat from "../models/chat.model.js";
 import Message from "../models/message.model.js";
-// import askAI from "../utils/groq.js.js"
+import { askGroqAI } from "../utils/groq.js"
 
 
 export const sendMessage = async (req, res) => {
   try {
     const userId = req.auth.userId;
     const { chatId, prompt } = req.body;
-  
+
     if (!chatId || !prompt) {
       return res.status(400).json({ error: "chatId and prompt required" });
     }
@@ -25,7 +25,7 @@ export const sendMessage = async (req, res) => {
     });
 
     // AI reply
-    const aiReply = "working";
+    const aiReply = await askGroqAI(prompt);
 
     // AI message
     await Message.create({

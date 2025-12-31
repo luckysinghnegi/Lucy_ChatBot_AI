@@ -12,6 +12,8 @@
   gap: 20px;
   overflow-y: auto;
   padding-bottom: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
   min-height: 0;
 }
 
@@ -104,6 +106,8 @@
   filter: invert(1);
   /* make arrow icon visible on dark background */
 }
+
+
 
 
 .message.loading {
