@@ -14,7 +14,8 @@ const Homepage = () => {
         <h2>Supercharge your creativity and productivity</h2>
         <h3>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Placeat sint
-          dolorem doloribus, architecto dolor.
+          dolorem doloribus, architecto dolor.Lorem Lorem ipsum dolor sit amet consectetur,
+          facere minus molestiae.
         </h3>
         <Link to="/dashboard">Get Started</Link>
       </div>

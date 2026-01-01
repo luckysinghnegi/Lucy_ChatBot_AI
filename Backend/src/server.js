@@ -25,6 +25,8 @@ const allowedOrigins = [
     "https://genuine-surprise-production.up.railway.app"
 ];
 
+console.log(" _____ ")
+
 app.use(cors({
     origin: (origin, callback) => {
         // allow requests with no origin like Postman or CURL
