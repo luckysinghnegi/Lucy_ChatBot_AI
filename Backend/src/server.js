@@ -21,24 +21,26 @@ app.use(express.json());
 
 // --- CORS Setup ---
 const allowedOrigins = [
-    process.env.CLIENT_URL,
-    "https://genuine-surprise-production.up.railway.app"
+    process.env.CLIENT_URL
 ];
-
-console.log(" _____ ")
 
 app.use(cors({
     origin: (origin, callback) => {
-        // allow requests with no origin like Postman or CURL
         if (!origin) return callback(null, true);
-        if (allowedOrigins.includes(origin)) {
+
+        if (origin === process.env.CLIENT_URL) {
             return callback(null, true);
         }
-        return callback(new Error(`CORS not allowed for origin: ${origin}`));
+
+        console.error("Blocked by CORS:", origin);
+        return callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
+
 
 // --- Clerk Middleware ---
 app.use(clerkMiddleware());
