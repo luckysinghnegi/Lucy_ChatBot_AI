@@ -21,7 +21,7 @@ app.use(express.json());
 
 // --- CORS Setup ---
 const allowedOrigins = [
-    "http://localhost:5173",
+    process.env.CLIENT_URL,
     "https://genuine-surprise-production.up.railway.app"
 ];
 
