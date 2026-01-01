@@ -12,6 +12,8 @@ import DashBoardLayout from "./layouts/dashBoardLayOut/DashBoardLayout.jsx"
 import SignInPage from "./routes/SignInPage/SignInPage.jsx"
 import SignUpPage from './routes/SignUpPage/SignUpPage.jsx'
 import RootLayout from './layouts/rootLayOut/RootLayout.jsx'
+import NotFoundPage from './components/notFoundPage.jsx'
+import ErrorHandler from "./components/ErrorHandler.jsx"
 
 // clerk authentication added here----------------/
 import { ClerkProvider } from "@clerk/clerk-react";
@@ -23,6 +25,7 @@ const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 const router = createBrowserRouter([
   {
     element: <RootLayout />,
+    errorElement: <ErrorHandler />,
     children: [
       {
         path: '/',
@@ -47,6 +50,10 @@ const router = createBrowserRouter([
             element: <ChatPage />
           }
         ]
+      },
+      {
+        path: "*",
+        element: <NotFoundPage />
       }
     ]
 
@@ -55,7 +62,7 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY}  frontendApi={frontendApi}>
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY} frontendApi={frontendApi}>
       <Toaster position="top-center" reverseOrder={false}>
       </Toaster>
       <RouterProvider router={router} />
