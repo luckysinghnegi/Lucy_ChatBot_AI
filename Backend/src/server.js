@@ -20,26 +20,24 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 // --- CORS Setup ---
-const allowedOrigins = [
-    process.env.CLIENT_URL
-];
 
 app.use(cors({
-    origin: (origin, callback) => {
+    origin: function (origin, callback) {
+        // allow Postman / server-to-server
         if (!origin) return callback(null, true);
 
+        // allow only your Vercel frontend
         if (origin === process.env.CLIENT_URL) {
             return callback(null, true);
         }
 
         console.error("Blocked by CORS:", origin);
-        return callback(new Error("Not allowed by CORS"));
+        return callback(null, false);
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"]
+    allowedHeaders: ["Content-Type", "Authorization"],
 }));
-
 
 
 // --- Clerk Middleware ---
