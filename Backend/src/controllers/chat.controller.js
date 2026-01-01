@@ -5,7 +5,8 @@ import Chat from "../models/chat.model.js";
  */
 export const createChat = async (req, res) => {
   try {
-    const userId = req.auth.userId;
+    const { userId } = req.auth();
+
     const { prompt } = req.body || {};
 
     const chatData = { userId };
@@ -34,7 +35,8 @@ export const createChat = async (req, res) => {
  */
 export const getMyChats = async (req, res) => {
   try {
-    const userId = req.auth.userId;
+    const { userId } = req.auth();
+
 
     const chats = await Chat.find({ userId })
       .sort({ updatedAt: -1 })
@@ -51,7 +53,8 @@ export const getMyChats = async (req, res) => {
  */
 export const getChatById = async (req, res) => {
   try {
-    const userId = req.auth.userId;
+    const { userId } = req.auth();
+
     const { chatId } = req.params;
 
     const chat = await Chat.findOne({ _id: chatId, userId });

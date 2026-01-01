@@ -7,15 +7,14 @@ import {
 import deleteChat from "../controllers/deleteChat.controller.js"
 
 // Clerk Middleware
-import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
-import requireAuth from "../middlewares/clerk.middleware.js"
+import { requireAuth } from "@clerk/express";
 
 const router = express.Router();
 
-router.use(ClerkExpressRequireAuth());
+router.use(requireAuth());
 
 router.post("/", createChat);
 router.get("/", getMyChats);
 router.get("/:chatId", getChatById);
-router.delete("/:chatId", requireAuth, deleteChat)
+router.delete("/:chatId", deleteChat)
 export default router;
