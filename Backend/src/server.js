@@ -18,16 +18,14 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 // --- CORS Setup ---
-// Update your CORS configuration to be more flexible
+// --- PERFECT CORS CONFIGURATION ---
+// Allow BOTH origins - production and development
 const allowedOrigins = [
-    process.env.CLIENT_URL,
-    'https://lucy-chat-bot-ai.vercel.app',
-    'http://localhost:5173',
-    'http://localhost:3000',
-    'http://localhost:8080',
+    "https://lucy-chat-bot-ai.vercel.app",    // Production
+    "http://localhost:5173"                   // Development
 ];
 
-const corsOptions = {
+app.use(cors({
     origin: function (origin, callback) {
         // Allow requests with no origin (like mobile apps, curl, Postman)
         if (!origin) return callback(null, true);
@@ -37,18 +35,13 @@ const corsOptions = {
             return callback(null, true);
         }
 
-        // Allow subdomains of your vercel app
-        if (origin.includes('.vercel.app') || origin.includes('.localhost')) {
-            return callback(null, true);
-        }
-
-        console.error("Blocked by CORS:", origin);
-        return callback(new Error('Not allowed by CORS'));
+        console.log("🚫 Blocked by CORS:", origin);
+        return callback(new Error("Not allowed by CORS"), false);
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "X-Clerk-Auth"],
-};
+    allowedHeaders: ["Content-Type", "Authorization"],
+}));
 
 // --- Clerk Middleware ---
 app.use(clerkMiddleware());
@@ -58,6 +51,7 @@ app.get("/", (req, res) => {
     res.send("Hello world!");
 });
 
+// Health check Router-----------------------
 app.get("/health", (req, res) => {
     res.status(200).json({ status: "ok" });
 });
@@ -88,24 +82,11 @@ app.use((req, res) => {
     res.status(404).json({ error: "Route not found" });
 });
 
-// Error handler
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-
-    // Handle CORS errors
-    if (err.message === 'Not allowed by CORS') {
-        return res.status(403).json({ error: "CORS policy blocked this request" });
-    }
-
-    res.status(500).json({ error: "Something went wrong!" });
-});
-
 // Connect to DB & start server
 connectDB().then(() => {
     const port = process.env.PORT || 3000;
     app.listen(port, () => {
         console.log(`✅ Server running on port ${port}`);
-        console.log(`✅ Allowed origins: ${allowedOrigins.join(', ')}`);
         console.log(`✅ Environment: ${process.env.NODE_ENV || 'development'}`);
         console.log(`✅ Clerk is configured: ${process.env.CLERK_SECRET_KEY ? 'Yes' : 'No'}`);
     });
