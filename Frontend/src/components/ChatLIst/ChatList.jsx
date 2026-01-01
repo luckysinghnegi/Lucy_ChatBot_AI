@@ -17,7 +17,7 @@ export default function ChatList() {
             try {
                 const token = await getToken();
 
-                const res = await fetch("http://localhost:3000/api/chats", {
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/api/chats`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -32,14 +32,14 @@ export default function ChatList() {
 
         fetchChats();
     }, [isSignedIn]);
-   
+
 
     // Create new chat
     const createNewChat = async () => {
         try {
             const token = await getToken();
 
-            const res = await fetch("http://localhost:3000/api/chats", {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/chats`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -77,7 +77,7 @@ export default function ChatList() {
 
             const token = await getToken();
 
-            const res = await fetch(`http://localhost:3000/api/chats/${chatId}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/chats/${chatId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,

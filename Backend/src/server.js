@@ -23,13 +23,23 @@ const app = express();
 app.use(morgan("dev"));
 
 //cors set up to allow the frontend to interreact with backend/---------------------
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://genuine-surprise-production.up.railway.app/"
+];
+
 app.use(cors({
-    origin: [
-        "http://localhost:5173",
-        "https://your-frontend-domain.vercel.app"
-    ],
-    credentials: true
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("CORS not allowed"));
+        }
+    },
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
 }));
+
 
 
 // other middlewares...

@@ -22,14 +22,14 @@ function SaveUserToDB() {
     const saveUser = async () => {
       const token = await getToken();
 
-      await fetch("http://localhost:3000/api/user/save", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/save`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log(res)
     };
-
     saveUser();
   }, [isSignedIn]);
 }

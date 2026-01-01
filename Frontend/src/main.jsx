@@ -16,6 +16,7 @@ import RootLayout from './layouts/rootLayOut/RootLayout.jsx'
 // clerk authentication added here----------------/
 import { ClerkProvider } from "@clerk/clerk-react";
 
+const frontendApi = import.meta.env.VITE_CLERK_FRONTEND_API;
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 // All routers here
@@ -54,7 +55,7 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY}  frontendApi={frontendApi}>
       <Toaster position="top-center" reverseOrder={false}>
       </Toaster>
       <RouterProvider router={router} />

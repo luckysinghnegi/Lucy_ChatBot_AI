@@ -39,7 +39,7 @@ function NewPrompt({ chatId }) {
             const token = await getToken();
 
             const res = await fetch(
-                `http://localhost:3000/api/messages/${chatId}`,
+                `${import.meta.env.VITE_API_URL}/api/messages/${chatId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -61,7 +61,7 @@ function NewPrompt({ chatId }) {
 
         const token = await getToken();
 
-        const res = await fetch("http://localhost:3000/api/messages/send", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/messages/send`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -84,8 +84,6 @@ function NewPrompt({ chatId }) {
         setLoading(false);
     };
 
-    console.log(messages)
-
     // 3️⃣ Form submit
     const handleForm = (e) => {
         e.preventDefault();
@@ -99,6 +97,7 @@ function NewPrompt({ chatId }) {
     return (
         <div className="newPromptWrapper">
             <div className="messagesContainer" ref={messagesContainerRef}>
+                {messages.length == 0 && <div style={{ display: "center", text: "bold" }}>Loading....</div>}
                 {Array.isArray(messages) && messages.map((msg, i) => (
                     <div
                         key={i}

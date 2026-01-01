@@ -7,8 +7,8 @@ import {
 import deleteChat from "../controllers/deleteChat.controller.js"
 
 // Clerk Middleware
-import requireAuth from "../middlewares/clerk.middleware.js"
 import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
+import requireAuth from "../middlewares/clerk.middleware.js"
 
 const router = express.Router();
 
