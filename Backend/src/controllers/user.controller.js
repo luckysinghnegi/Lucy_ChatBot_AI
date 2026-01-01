@@ -8,6 +8,8 @@ export const saveUser = async (clerkUser) => {
 
   if (!email) throw new Error("No email found for user");
 
+  if (!User.findById(clerkId)) return "User already exit";
+
   // Find user by email and update if exists, otherwise create
   const user = await User.findOneAndUpdate(
     { email },       // filter by unique field

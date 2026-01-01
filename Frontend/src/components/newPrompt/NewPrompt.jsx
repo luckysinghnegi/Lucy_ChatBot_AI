@@ -44,6 +44,7 @@ function NewPrompt({ chatId }) {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
+                    credentials: 'include'
                 }
             );
 
@@ -67,6 +68,7 @@ function NewPrompt({ chatId }) {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
+            credentials: 'include',
             body: JSON.stringify({
                 chatId,
                 prompt: text, // User Prompt sended to backend/------------
