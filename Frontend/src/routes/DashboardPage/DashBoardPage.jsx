@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./dashboardPage.css";
+import "./DashboardPage.css";
 import { useAuth } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 

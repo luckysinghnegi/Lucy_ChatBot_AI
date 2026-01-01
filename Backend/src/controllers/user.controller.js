@@ -1,16 +1,24 @@
-import User from "../models/user.model.js"
+import User from "../models/user.model.js"; // your Mongoose user model
 
 export const saveUser = async (clerkUser) => {
-  let user = await User.findOne({ clerkId: clerkUser.id });
+  const { email_addresses, first_name, last_name, id: clerkId } = clerkUser;
 
-  if (!user) {
-    user = await User.create({
-      clerkId: clerkUser.id,
-      email: clerkUser.emailAddresses[0].emailAddress,
-      firstName: clerkUser.firstName,
-      lastName: clerkUser.lastName,
-    });
-  }
+  // pick primary email
+  const email = email_addresses?.[0]?.email_address;
+
+  if (!email) throw new Error("No email found for user");
+
+  // Find user by email and update if exists, otherwise create
+  const user = await User.findOneAndUpdate(
+    { email },       // filter by unique field
+    {
+      clerkId,
+      first_name,
+      last_name,
+      email,
+    },
+    { new: true, upsert: true } // create if not exists
+  );
 
   return user;
 };

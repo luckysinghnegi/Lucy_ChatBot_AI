@@ -20,16 +20,29 @@ function SaveUserToDB() {
     if (!isSignedIn) return;
 
     const saveUser = async () => {
-      const token = await getToken();
+      try {
+        const token = await getToken();
 
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/save`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(res)
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/user/save`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({}) // send empty object
+        });
+
+        const data = await res.json();
+        console.log("Save user response:", data);
+
+        if (!res.ok) {
+          console.error("Error saving user:", data.message || data.error);
+        }
+      } catch (err) {
+        console.error("Fetch error:", err);
+      }
     };
+
     saveUser();
   }, [isSignedIn]);
 }

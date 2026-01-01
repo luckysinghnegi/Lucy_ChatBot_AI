@@ -1,4 +1,4 @@
-import "./chatPage.css";
+import "./ChatPage.css";
 import React, { useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import NewPrompt from "../../components/newPrompt/NewPrompt";
