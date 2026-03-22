@@ -99,7 +99,14 @@ function NewPrompt({ chatId }) {
     return (
         <div className="newPromptWrapper">
             <div className="messagesContainer" ref={messagesContainerRef}>
-                {messages.length == 0 && <div style={{ display: "center", text: "bold" }}>Loading....</div>}
+                {messages.length == 0 && <div style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                    fontSize: "18px",
+                    fontWeight: "600",
+                }}>Loading....</div>}
                 {Array.isArray(messages) && messages.map((msg, i) => (
                     <div
                         key={i}
@@ -133,7 +140,7 @@ function NewPrompt({ chatId }) {
                     type="text"
                     name="text"
                     placeholder="Ask anything..."
-                    autoComplete="off"
+                    autoComplete="on"
                 />
                 <button type="submit">
                     <img src="/arrow.png" alt="Send" />

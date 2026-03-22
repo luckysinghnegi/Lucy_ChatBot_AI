@@ -17,31 +17,15 @@ const app = express();
 app.use(morgan("dev"));
 app.use(express.json());
 
-// --- CORS Setup ---
-// --- PERFECT CORS CONFIGURATION ---
-// Allow BOTH origins - production and development
-const allowedOrigins = [
-    "https://lucy-chat-bot-ai.vercel.app",    // Production
-    "http://localhost:5173"                   // Development
-];
-
+// --- CORS Setup (open to all origins, quick debug mode) ---
 app.use(cors({
-    origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps, curl, Postman)
-        if (!origin) return callback(null, true);
-
-        // Check if origin is in allowed list
-        if (allowedOrigins.includes(origin)) {
-            return callback(null, true);
-        }
-
-        console.log("🚫 Blocked by CORS:", origin);
-        return callback(new Error("Not allowed by CORS"), false);
-    },
+    origin: true,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
 }));
+
+app.options(/^(.*)$/, cors()); 
 
 // --- Clerk Middleware ---
 app.use(clerkMiddleware());
